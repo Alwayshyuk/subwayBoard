@@ -1,5 +1,6 @@
 package me.sanghyuk.subwayboard.config;
 
+import com.nimbusds.oauth2.sdk.Role;
 import lombok.RequiredArgsConstructor;
 import me.sanghyuk.subwayboard.config.jwt.TokenProvider;
 import me.sanghyuk.subwayboard.config.oauth.OAuth2AuthorizationRequestBasedOnCookieRepository;

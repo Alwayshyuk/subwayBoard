@@ -9,8 +9,4 @@ public class UserViewController {
     public String login() {
         return "oauthLogin";
     }
-    @GetMapping("/signup")
-    public String signup() {
-        return "signup";
-    }
 }
