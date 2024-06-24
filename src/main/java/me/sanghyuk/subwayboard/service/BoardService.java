@@ -9,9 +9,8 @@ import me.sanghyuk.subwayboard.repository.BoardRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 import java.util.function.Function;
 
@@ -87,10 +86,10 @@ public class BoardService {
         return dto;
     }
 
-    private static void authorizeArticleAuthor(Board board){
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-        if(!board.getWriter().equals(userName)){
-            throw new IllegalArgumentException("not authorized");
-        }
-    }
+//    private static void authorizeArticleAuthor(Board board){
+//        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+//        if(!board.getWriter().equals(userName)){
+//            throw new IllegalArgumentException("not authorized");
+//        }
+//    }
 }

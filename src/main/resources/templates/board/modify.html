@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <h1 class="mt-4">글 수정</h1>
+        <form action="/board/modify" method="post">
+            <div class="form-group">
+                <label>글 번호</label>
+                <input type="text" class="form-control" name="gno" th:value="${dto.gno}" readonly>
+            </div>
+            <div class="form-group">
+                <label>제목</label>
+                <input type="text" class="form-control" name="title" th:value="${dto.title}">
+            </div>
+            <div class="form-group">
+                <label>내용</label>
+                <textarea class="form-control" rows="8" name="content">[[${dto.content}]]</textarea>
+            </div>
+            <div class="form-group">
+                <label>등록일</label>
+                <input type="text" class="form-control" name="regDate"
+                       th:value="${#temporals.format(dto.regDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+            </div>
+            <div class="form-group">
+                <label>수정일</label>
+                <input type="text" class="form-control" name="modDate"
+                       th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
+            </div>
+
+        </form>
+        <button type="button" class="btn btn-primary modifyBtn">Modify</button>
+        <button type="button" class="btn btn-info listBtn">List</button>
+        <button type="button" class="btn btn-danger removeBtn">Remove</button>
+
+    </th:block>
+</th:block>
+<script th:inline="javascript">
+    var actionForm = document.querySelector("form")
+
+    $(".removeBtn").click(function () {
+        actionForm.attr("action", "/guestbook/remove")
+            .attr("method", "post");
+        actionForm.submit();
+    })
+</script>
+</html>

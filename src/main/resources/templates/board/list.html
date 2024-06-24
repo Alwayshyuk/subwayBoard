@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
+    <th:block th:fragment="content">
+        <h1 class="mt-4">게시판
+            <span>
+                <button display="none" type="button" class="btn btn-outline-primary" id="moveWrite" th:onclick="moveWrite()">글쓰기</button>
+            </span>
+        </h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">번호</th>
+                <th scope="col">제목</th>
+                <th scope="col">작성자</th>
+                <th scope="col">등록일</th>
+            </tr>
+            </thead>
+        </table>
+    </th:block>
+</th:block>
+</html>
