@@ -117,6 +117,7 @@ function httpRequest(method, url, body, success, fail){
             return fail();
         }
     });
+
 }
 
 const token = searchParam('token');

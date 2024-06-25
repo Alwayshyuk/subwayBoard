@@ -9,12 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 @SpringBootTest
 public class BoardServiceTest {
     @Autowired
     private BoardService service;
+    @Autowired
+    private SubwayService subwayService;
 
     @DisplayName("열차 없는 게시글 등록")
     @Test
@@ -106,6 +109,14 @@ public class BoardServiceTest {
         }
         System.out.println("======================");
         resultDTO.getPageList().forEach(i-> System.out.println(i));
+    }
+
+    @DisplayName("역 이름 테스트")
+    @Test
+    public void testStnName() throws Exception {
+        String[] add = {" ", "신림", " "};
+        List<String> result = subwayService.getStnName("SearchSTNBySubwayLineInfo", add);
+        System.out.println(result.toString());
     }
 
 }
