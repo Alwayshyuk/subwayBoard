@@ -9,12 +9,17 @@
                 <input type="text" class="form-control" name="title" placeholder="Enter Title">
             </div>
             <div class="form-group">
-                <label>역 정보 입력하기</label>
-                <input type="checkbox" id="trainYn">
-                <div>
+                <div id="searchStnNm">
                     <label>역 이름</label>
-                    <input type="text" name="stdStation">
-                    <button type="button" class="btn btn-primary">검색</button>
+                        <input type="text" name="stdStation" id="stdStation">
+                        <button type="button" class="btn btn-primary" onclick="searchStn()">역명 검색</button>
+                </div>
+                <div id="stnNmArea" style="display: none;">
+                    <select class="form-select form-group" onchange="changeStation()" th:name="selectStnNm">
+                        <option value="">-- 선택 --</option>
+                        <option th:each="val : ${stnList}" th:value="${val}" th:utext="${val}">
+                        </option>
+                    </select>
                 </div>
 
             </div>
@@ -25,7 +30,7 @@
                 <label>Content</label>
                 <textarea class="form-control" rows="5" name="content"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">작성하기</button>
         </form>
     </th:block>
 </th:block>

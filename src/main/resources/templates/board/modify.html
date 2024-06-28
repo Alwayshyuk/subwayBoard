@@ -6,11 +6,19 @@
         <form action="/board/modify" method="post">
             <div class="form-group">
                 <label>글 번호</label>
-                <input type="text" class="form-control" name="gno" th:value="${dto.gno}" readonly>
+                <input type="text" class="form-control" name="bno" th:value="${dto.bno}" readonly>
             </div>
             <div class="form-group">
                 <label>제목</label>
                 <input type="text" class="form-control" name="title" th:value="${dto.title}">
+            </div>
+            <div class="form-group">
+                <label >호선</label>
+                <textarea class="form-control" rows="1" name="content" readonly>[[${dto.lineNo}]]</textarea>
+            </div>
+            <div class="form-group">
+                <label >역명</label>
+                <textarea class="form-control" rows="1" name="content" readonly>[[${dto.stdStation}]]</textarea>
             </div>
             <div class="form-group">
                 <label>내용</label>

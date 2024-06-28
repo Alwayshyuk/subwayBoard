@@ -17,11 +17,11 @@ public class SubwayService {
 
     public List<String> subwayApi(String apiName, String[] addParam) throws Exception {
             StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
-            urlBuilder.append("/" +  URLEncoder.encode("","UTF-8") ); /*인증키 (sample사용시에는 호출시 제한됩니다.)*/
+            urlBuilder.append("/" +  URLEncoder.encode("6657744c4468616e3737436a6c7754","UTF-8") ); /*인증키 (sample사용시에는 호출시 제한됩니다.)*/
             urlBuilder.append("/" +  URLEncoder.encode("xml","UTF-8") ); /*요청파일타입 (xml,xmlf,xls,json) */
             urlBuilder.append("/" + URLEncoder.encode(apiName,"UTF-8")); /*서비스명 (대소문자 구분 필수입니다.)*/
             urlBuilder.append("/" + URLEncoder.encode("1","UTF-8")); /*요청시작위치 (sample인증키 사용시 5이내 숫자)*/
-            urlBuilder.append("/" + URLEncoder.encode("5","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
+            urlBuilder.append("/" + URLEncoder.encode("100","UTF-8")); /*요청종료위치(sample인증키 사용시 5이상 숫자 선택 안 됨)*/
             // 상위 5개는 필수적으로 순서바꾸지 않고 호출해야 합니다.
 
             // 서비스별 추가 요청 인자이며 자세한 내용은 각 서비스별 '요청인자'부분에 자세히 나와 있습니다.
@@ -51,12 +51,24 @@ public class SubwayService {
             conn.disconnect();
             return result;
     }
-    public List<String> getStnName(String apiName, String[] addParam ) throws Exception {
-            List<String> list = subwayApi(apiName, addParam);
+    public List<String> getStnName(String stnNm) throws Exception {
+
+            String[] add = {" ", stnNm, " "};
+            List<String> list = subwayApi("SearchSTNBySubwayLineInfo", add);
             List<String> result = new ArrayList<>();
+            String nm = "";
+            String no = "";
+            String cd = "";
             for(int i=0; i<list.size(); i++){
                     if(list.get(i).startsWith("<STATION_NM>")){
-                            result.add(cutString(list.get(i)));
+                            nm = cutString(list.get(i));
+                    }else if(list.get(i).startsWith("<LINE_NUM>")){
+                            no = cutString(list.get(i));
+                    }
+                    if(nm != "" && no != ""){
+                            result.add(no+"."+nm);
+                            nm="";
+                            no="";
                     }
             }
             return result;

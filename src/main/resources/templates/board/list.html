@@ -11,6 +11,8 @@
             <thead>
             <tr>
                 <th scope="col">글번호</th>
+                <th scope="col">노선</th>
+                <th scope="col">역명</th>
                 <th scope="col">제목</th>
                 <th scope="col">작성자</th>
                 <th scope="col">등록일</th>
@@ -19,10 +21,12 @@
             <tbody>
             <tr th:each="dto:${result.dtoList}">
                 <th scope="row">
-                    <a th:href="@{/board/read(gno=${dto.bno},page=${result.page})}">
+                    <a th:href="@{/board/read(bno=${dto.bno})}">
                         [[${dto.bno}]]
                     </a>
                 </th>
+                <td>[[${dto.lineNo}]]</td>
+                <td>[[${dto.stdStation}]]</td>
                 <td>[[${dto.title}]]</td>
                 <td>[[${dto.writer}]]</td>
                 <td>[[${#temporals.format(dto.regDate,'yyyy/MM/dd')}]]</td>
@@ -31,15 +35,15 @@
         </table>
         <ul class="pagination h-100 justify-content-center align-items-center">
             <li class="page-item" th:if="${result.prev}">
-                <a class="page-link" th:href="@{/guestbook/list(page=${result.start-1})}" tabindex="-1">Previous</a>
+                <a class="page-link" th:href="@{/board/list(page=${result.start-1})}" tabindex="-1">Previous</a>
             </li>
             <li th:class="'page-item'+${result.page==page?'active':''}"th:each="page:${result.pageList}">
-                <a class="page-link" th:href="@{/guestbook/list(page=${page})}">
+                <a class="page-link" th:href="@{/board/list(page=${page})}">
                     [[${page}]]
                 </a>
             </li>
             <li class="page=item" th:if="${result.next}">
-                <a class="page-link" th:href="@{/guestbook/list(page=${result.end+1})}">Next</a>
+                <a class="page-link" th:href="@{/board/list(page=${result.end+1})}">Next</a>
             </li>
         </ul>
         </table>

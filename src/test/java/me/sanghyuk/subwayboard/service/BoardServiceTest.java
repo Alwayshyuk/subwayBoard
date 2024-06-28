@@ -30,7 +30,7 @@ public class BoardServiceTest {
                     .writer("user"+i)
                     .build();
 
-            System.out.println(service.save(dto, "user", 0));
+            System.out.println(service.save(dto, "user"));
         });
 
     }
@@ -48,7 +48,7 @@ public class BoardServiceTest {
                 .trainTime("06:20:55")
                 .build();
 
-        System.out.println(service.save(dto, "user", 1));
+        System.out.println(service.save(dto, "user"));
     }
     @DisplayName("게시글 조회")
     @Test
@@ -114,9 +114,14 @@ public class BoardServiceTest {
     @DisplayName("역 이름 테스트")
     @Test
     public void testStnName() throws Exception {
-        String[] add = {" ", "신림", " "};
-        List<String> result = subwayService.getStnName("SearchSTNBySubwayLineInfo", add);
+        List<String> result = subwayService.getStnName("강남");
         System.out.println(result.toString());
+    }
+
+    @DisplayName("사용자 ID 가져오기")
+    @Test
+    public void testUserId() throws Exception{
+
     }
 
 }

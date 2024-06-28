@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -20,10 +21,13 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
-    public Board save(BoardDTO dto, String userName, int trainYn) {
-        if(trainYn == 0){
+    public Board save(BoardDTO dto, String userName) {
+        if(dto.getStdStation() == null || dto.getStdStation() == ""){
             return boardRepository.save(dto.toEntity(userName));
         } else {
+            String[] values = dto.getStdStation().split("\\.");
+            dto.setLineNo(values[0]);
+            dto.setStdStation(values[1]);
             return boardRepository.save(dto.toTrainEntity(userName));
         }
     }
@@ -62,10 +66,13 @@ public class BoardService {
     }
 
     public BoardDTO entityToDtoList(Board entity) {
+        String writerList = entity.getWriter().substring(0,3)+"***";
         BoardDTO dto = BoardDTO.builder()
                 .bno(entity.getBno())
+                .lineNo(entity.getLineNo())
+                .stdStation(entity.getStdStation())
                 .title(entity.getTitle())
-                .writer(entity.getWriter())
+                .writer(writerList)
                 .regDate(entity.getRegDate())
                 .build();
         return dto;
@@ -75,6 +82,7 @@ public class BoardService {
         BoardDTO dto = BoardDTO.builder()
                 .bno(entity.getBno())
                 .title(entity.getTitle())
+                .content(entity.getContent())
                 .writer(entity.getWriter())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
