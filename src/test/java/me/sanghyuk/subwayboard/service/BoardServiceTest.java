@@ -69,7 +69,7 @@ public class BoardServiceTest {
                 .title("update")
                 .content("update")
                 .build();
-        System.out.println(service.update(3L, dto, 0));
+//        System.out.println(service.update(3L, dto, 0));
         System.out.println(service.read(3L));
     }
 
@@ -86,7 +86,7 @@ public class BoardServiceTest {
                 .trainTime("06:20:55")
                 .build();
 
-        System.out.println(service.update(4L, dto, 1));
+//        System.out.println(service.update(4L, dto, 1));
         System.out.println(service.read(4L));
     }
 

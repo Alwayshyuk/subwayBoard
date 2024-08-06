@@ -7,6 +7,15 @@
                 <button display="none" type="button" class="btn btn-outline-primary" id="moveWrite" th:onclick="moveWrite()">글쓰기</button>
             </span>
         </h1>
+        <a class="btn btn-secondary" th:href="@{/board}">전체</a>
+        <a class="btn btn-secondary" th:href="@{/board?lno=1}">1호선</a>
+        <a class="btn btn-secondary" th:href="@{/board?lno=2}">2호선</a>
+        <a class="btn btn-secondary" th:href="@{/board?lno=3}">3호선</a>
+        <a class="btn btn-secondary" th:href="@{/board?lno=4}">4호선</a>
+        <a class="btn btn-secondary" th:href="@{/board?lno=5}">5호선</a>
+        <a class="btn btn-secondary" th:href="@{/board?lno=6}">6호선</a>
+        <a class="btn btn-secondary" th:href="@{/board?lno=7}">7호선</a>
+        <a class="btn btn-secondary" th:href="@{/board?lno=8}">8호선</a>
         <table class="table table-striped">
             <thead>
             <tr>

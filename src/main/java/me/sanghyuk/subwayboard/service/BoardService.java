@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
-import java.util.Arrays;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -48,11 +47,11 @@ public class BoardService {
     public Board update(long bno, BoardDTO dto, int trainYn) {
         Board board = boardRepository.findById(bno).orElseThrow(()->new IllegalArgumentException("not found: "+bno));
 //        authorizeArticleAuthor(board);
-        if(trainYn == 0){
+//        if(trainYn == 0){
             board.update(dto.getTitle(), dto.getContent());
-        } else{
-            board.trainUpdate(dto.getTitle(), dto.getContent(), dto.getLineNo(), dto.getTrainNo(), dto.getStdStation(), dto.getTrainTime());
-        }
+//        } else{
+//            board.trainUpdate(dto.getTitle(), dto.getContent(), dto.getLineNo(), dto.getTrainNo(), dto.getStdStation(), dto.getTrainTime());
+//        }
         return board;
     }
 
@@ -63,6 +62,12 @@ public class BoardService {
         Page<Board> result = boardRepository.findAll(pageable);
         Function<Board, BoardDTO> fn = (entity -> entityToDtoList(entity));
         return new PageResultDTO<>(result, fn);
+    }
+    public PageResultDTO<BoardDTO, Board> getListByLno(PageRequestDTO requestDTO, Long lno) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("bno").descending());
+        Page<Board> result = boardRepository.findByLineNoContaining(lno.toString(),pageable);
+        Function<Board, BoardDTO> fn = (entity -> entityToDtoList(entity));
+        return new PageResultDTO<>(result,fn);
     }
 
     public BoardDTO entityToDtoList(Board entity) {

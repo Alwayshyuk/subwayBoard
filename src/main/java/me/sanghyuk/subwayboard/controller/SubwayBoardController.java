@@ -14,7 +14,6 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/board")
 public class SubwayBoardController {
 
     private final BoardService boardService;
@@ -22,31 +21,49 @@ public class SubwayBoardController {
     private final SubwayService subwayService;
 
 
-    @GetMapping("/list")
-    public void list(PageRequestDTO pageRequestDTO, Model model){
-        model.addAttribute("result", boardService.getList(pageRequestDTO));
+    @GetMapping("/board")
+    public String list(PageRequestDTO pageRequestDTO, Model model, @RequestParam(required = false) Long lno){
+        if(lno == null){
+            model.addAttribute("result", boardService.getList(pageRequestDTO));
+        }else{
+            model.addAttribute("result", boardService.getListByLno(pageRequestDTO, lno));
+        }
+        return "board/list";
     }
-    @GetMapping("/write")
+    @GetMapping("/board/write")
     public void write(){}
 
 
-    @PostMapping("/write")
+    @PostMapping("/board/write")
     public String write(@ModelAttribute BoardDTO boardDTO,@CookieValue(value="userEmail", required = false) Cookie rCookie){
-        System.out.println("@@@@@@@@@@@"+boardDTO.getStdStation());
         boardService.save(boardDTO, rCookie.getValue());
-        return "redirect:/board/list";
-
+        return "redirect:/board";
     }
 
-    @PostMapping("/stnm")
+    @PostMapping("/board/stnm")
     public String stnNm(@RequestParam String stnNm, Model model) throws Exception{
         List<String> stnList = subwayService.getStnName(stnNm);
         model.addAttribute("stnList", stnList);
         return "board/write::#stnNmArea";
     }
-    @GetMapping("/read")
+    @GetMapping("/board/read")
     public void read(@RequestParam Long bno, Model model){
         BoardDTO dto = boardService.read(bno);
         model.addAttribute("dto", dto);
+    }
+    @GetMapping("/board/modify")
+    public void modify(@RequestParam Long bno, Model model){
+        BoardDTO dto = boardService.read(bno);
+        model.addAttribute("dto", dto);
+    }
+    @PostMapping("/board/modify")
+    public String modify(@ModelAttribute BoardDTO boardDTO){
+        boardService.update(boardDTO.getBno(), boardDTO, 0);
+        return "redirect:/board";
+    }
+    @GetMapping("/board/delete")
+    public String delete(@RequestParam Long bno){
+        boardService.delete(bno);
+        return"redirect:/board";
     }
 }

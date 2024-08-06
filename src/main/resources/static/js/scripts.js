@@ -31,8 +31,8 @@ window.addEventListener('DOMContentLoaded', event => {
         logOutButton.addEventListener('click', event => {
             function success() {
                 localStorage.removeItem('access_token');
-                console.log(deleteCookie('refresh_token'));
-                console.log(deleteCookie('userEmail'));
+                deleteCookie('refresh_token');
+                deleteCookie('userEmail');
                 location.replace('/');
             }
 
@@ -44,31 +44,109 @@ window.addEventListener('DOMContentLoaded', event => {
         });
     }
 
-    if (getCookie("userEmail")) {
-
-    }
-
 
     if (getCookie("refresh_token") != null) {
         logStat = false;
     } else {
         logStat = true;
     }
+
+
     if (logStat) {
         document.getElementById("logIn").style.display = "block";
         document.getElementById("logOut").style.display = "none";
         if (document.getElementById("moveWrite") != null) {
             document.getElementById("moveWrite").style.display = "none";
         }
+        if (document.getElementById("button-send") != null) {
+            document.getElementById("button-send").style.display = "none";
+        }
     } else {
         document.getElementById("logIn").style.display = "none";
         document.getElementById("logOut").style.display = "block";
-        if (document.getElementById("moveWrite") != null) {
-            document.getElementById("moveWrite").style.display = "block";
+        if (document.getElementById("button-send") != null) {
+            document.getElementById("button-send").style.display = "block";
         }
     }
 
 });
+
+
+$(document).ready(function () {
+
+    const username = getCookie("userEmail");
+    var paramLineNo = location.search.substring(location.search.indexOf("=")+1);
+
+    $("#disconn").on("click", (e) => {
+        disconnect();
+    })
+
+    $("#button-send").on("click", (e) => {
+        send();
+    });
+
+    const websocket = new WebSocket("ws://localhost:8080/ws/chat");
+
+    websocket.onmessage = onMessage;
+    websocket.onopen = onOpen;
+    websocket.onclose = onClose;
+
+    function send() {
+
+        let msg = document.getElementById("msg");
+        websocket.send(username + ":" + msg.value + ":" + paramLineNo);
+        msg.value = '';
+    }
+
+    function onClose(evt) {
+        if (username != null) {
+            var str = username + ": 님이 방을 나가셨습니다. :" + paramLineNo;
+            websocket.send(str);
+        }
+    }
+
+    function onOpen(evt) {
+        if (username != null) {
+            var str = username + ": 님이 입장하셨습니다. :"+ paramLineNo;
+            websocket.send(str);
+        }
+    }
+
+    function onMessage(msg) {
+        var data = msg.data;
+        var sessionId = null;
+        var message = null;
+        var lineNo = null;
+        var arr = data.split(":");
+
+
+        var cur_session = username;
+
+        sessionId = arr[0];
+        message = arr[1];
+        lineNo = arr[2];
+
+        if (sessionId == cur_session) {
+            var str = "<div class='col-6'>";
+            str += "<div class='alert alert-secondary'>";
+            str += "<b>" + " 나 : " + message + "</b>";
+            str += "</div></div>";
+            $("#msgArea").append(str);
+        } else if(lineNo == paramLineNo){
+            var str = "<div class='col-6'>";
+            str += "<div class='alert alert-warning'>";
+            str += "<b>" + sessionId.substring(0, 3) + "..." + " : " + message + "</b>";
+            str += "</div></div>";
+            $("#msgArea").append(str);
+        } else if(paramLineNo == 0){
+            var str = "<div class='col-6'>";
+            str += "<div class='alert alert-warning'>";
+            str += "<b>" + sessionId.substring(0, 3) + "..." + " : " + message + "</b>";
+            str += "</div></div>";
+            $("#msgArea").append(str);
+        }
+    }
+})
 
 function getCookie(key) {
     var result = null;
@@ -191,8 +269,9 @@ var searchStn = () => {
     });
 }
 
-function changeStation(){
+function changeStation() {
     var selectStnNm = $("select option:selected").val();
-    console.log(selectStnNm);
     document.getElementById("stdStation").value = selectStnNm;
 }
+
+

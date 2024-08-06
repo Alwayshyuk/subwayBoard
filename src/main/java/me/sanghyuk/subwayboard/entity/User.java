@@ -19,7 +19,7 @@ public class User implements UserDetails {
     @Column(name="id", updatable = false)
     private Long id;
 
-    @Column(name = "nickname",unique = true)
+    @Column(name = "nickname",unique = false)
     private String nickname;
 
     @Column(name = "email",nullable = false,unique = true)
