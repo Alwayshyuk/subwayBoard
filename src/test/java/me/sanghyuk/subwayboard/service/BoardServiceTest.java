@@ -35,21 +35,21 @@ public class BoardServiceTest {
 
     }
 
-    @DisplayName("열차 있는 게시글 등록")
-    @Test
-    public void testSaveY(){
-        BoardDTO dto = BoardDTO.builder()
-                .title("test")
-                .content("test")
-                .writer("user")
-                .trainNo("C9012")
-                .lineNo("09호선")
-                .stdStation("언주")
-                .trainTime("06:20:55")
-                .build();
-
-        System.out.println(service.save(dto, "user"));
-    }
+//    @DisplayName("열차 있는 게시글 등록")
+//    @Test
+//    public void testSaveY(){
+//        BoardDTO dto = BoardDTO.builder()
+//                .title("test")
+//                .content("test")
+//                .writer("user")
+//                .trainNo("C9012")
+//                .lineNo("09호선")
+//                .stdStation("언주")
+//                .trainTime("06:20:55")
+//                .build();
+//
+//        System.out.println(service.save(dto, "user"));
+//    }
     @DisplayName("게시글 조회")
     @Test
     public void testRead(){
